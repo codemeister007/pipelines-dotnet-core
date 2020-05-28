@@ -1,0 +1,22 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- notification-test
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: notifySuccess
+  pool: server
+  steps:
+  - task: AzureFunction@1
+    inputs:
+      function: 'https://functionapp1nimzoid.azurewebsites.net/api/ReceiveBuildNotification'
+      key: 'D51K8C1qdFFbTUMEb1416raXVy/pWuCCmj/aDJqEpmRbotjfcam6Q=='
+      method: 'POST'
+      queryParameters: 'commitid=xxx&commitmessage=from pipeline'
+      waitForCompletion: 'false'
